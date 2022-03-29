@@ -7,6 +7,7 @@ import hoang.fw.foodworld.enums.Provider;
 import hoang.fw.foodworld.entities.User;
 import hoang.fw.foodworld.enums.Roles;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -21,44 +22,41 @@ public class UserService {
     @Autowired
     private RoleRepository roleRepo;
 
+    private User createUser(String username){
+        // Encode passwork
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(username);
+
+        // Specify role for user
+        Set<Role> roles = new HashSet<>();
+        roles.add(roleRepo.findByName(Roles.USER.name()));
+
+        // Create new user
+        User newUser = new User();
+        newUser.setUsername(username);
+        newUser.setEmail(username);
+        newUser.setPassword(encodedPassword);
+        newUser.setEnabled(true);
+        newUser.setRoles(roles);
+        return newUser;
+    }
+
     public void processOAuthPostGoogleLogin(String username) {
         User existUser = repo.getUserByUsername(username);
 
         if (existUser == null) {
-            User newUser = new User();
-            newUser.setUsername(username);
-            newUser.setEmail(username);
-            newUser.setFirstName("Hoang");
-            newUser.setLastName("Nguyen");
-            newUser.setPassword("Nguyen");
+            User newUser = createUser(username);
             newUser.setProvider(Provider.GOOGLE);
-            newUser.setEnabled(true);
-
-            Set<Role> roles = new HashSet<>();
-            roles.add(roleRepo.findByName(Roles.USER.name()));
-            newUser.setRoles(roles);
-
             repo.save(newUser);
         }
-
     }
 
     public void processOAuthPostFacebookLogin(String username) {
         User existUser = repo.getUserByUsername(username);
 
         if (existUser == null) {
-            User newUser = new User();
-            newUser.setUsername(username);
-            newUser.setEmail(username);
-            newUser.setFirstName("Hoang");
-            newUser.setLastName("Nguyen");
-            newUser.setPassword("Nguyen");
+            User newUser = createUser(username);
             newUser.setProvider(Provider.FACEBOOK);
-            newUser.setEnabled(true);
-
-            Set<Role> roles = new HashSet<>();
-            roles.add(roleRepo.findByName(Roles.USER.name()));
-            newUser.setRoles(roles);
             repo.save(newUser);
         }
 
@@ -68,19 +66,9 @@ public class UserService {
         User existUser = repo.getUserByUsername(username);
 
         if (existUser == null) {
-            User newUser = new User();
-            newUser.setUsername(username);
-            newUser.setEmail(username);
-            newUser.setFirstName("Hoang");
-            newUser.setLastName("Nguyen");
-            newUser.setPassword("Nguyen");
+            User newUser = createUser(username);
             newUser.setProvider(Provider.GITHUB);
             newUser.setEnabled(true);
-
-            Set<Role> roles = new HashSet<>();
-            roles.add(roleRepo.findByName(Roles.USER.name()));
-            newUser.setRoles(roles);
-
             repo.save(newUser);
         }
     }

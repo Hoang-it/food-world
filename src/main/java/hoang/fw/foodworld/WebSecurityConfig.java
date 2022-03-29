@@ -63,17 +63,31 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web
-                .ignoring()
-                .antMatchers("/resources/**", "/static/**","/webjars/**", "/css/**", "/fonts/**", "/images/**");
+        String[] resource_dirs = new String[]{
+                "/resources/**",
+                "/static/**",
+                "/webjars/**",
+                "/css/**",
+                "/fonts/**",
+                "/images/**"
+        };
+        web.ignoring().antMatchers(resource_dirs);
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
+        String[] allowAll = new String[]{
+                "/", "/register", "/process_register", "/oauth2/authorization/**", "/user", "/user/upload_avatar", "/user-photos/*/**"
+        };
+        String[] onlyAdmin = new String[]{
+                "/users"
+        };
+        String[] onlyUser = new String[]{
+                "/",
+        };
         http.authorizeRequests()
-                .antMatchers("/", "/register", "/process_register", "/oauth2/authorization/**").permitAll()
-                .antMatchers("/users").hasAnyAuthority("ADMIN")
+                .antMatchers(allowAll).permitAll()
+                .antMatchers(onlyAdmin).hasAnyAuthority("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -101,14 +115,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         if ("facebook".equals(auth.getAuthorizedClientRegistrationId())) userService.processOAuthPostFacebookLogin(oauthUser.getEmail());
                         if ("github".equals(auth.getAuthorizedClientRegistrationId()))  userService.processOAuthPostGithubLogin(oauthUser.getEmail());
 
-
-
-                        response.sendRedirect("/users");
+                        response.sendRedirect("/");
                     }
                 });
     }
-
-
-
-
 }

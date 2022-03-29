@@ -56,11 +56,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
-    }
-
-    public String getFullName() {
-        return user.getFirstName() + " " + user.getLastName();
+        return user.isEnabled();
     }
 
 }

@@ -30,8 +30,6 @@ public class UserRepositoryTests {
         user.setProvider(Provider.LOCAL);
         user.setEmail("ravikumar@gmail.com");
         user.setPassword("ravi2020");
-        user.setFirstName("Ravi");
-        user.setLastName("Kumar");
 
         User savedUser = repo.save(user);
 

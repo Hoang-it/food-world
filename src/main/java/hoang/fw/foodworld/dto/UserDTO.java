@@ -1,70 +1,28 @@
 package hoang.fw.foodworld.dto;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.Transient;
+
+@Getter
+@Setter
+@NoArgsConstructor
 public class UserDTO {
+    private Long id;
     private String email;
+    private String username;
     private String password;
-    private String lastName;
-    private String firstName;
     private boolean admin;
     private boolean user;
+    private String avatar;
+    private boolean enabled;
 
-    public String getEmail() {
-        return email;
-    }
+    @Transient
+    public String getPhotosImagePath() {
+        if (avatar == null || id == null) return null;
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public boolean isAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(boolean admin) {
-        this.admin = admin;
-    }
-
-    public boolean isUser() {
-        return user;
-    }
-
-    public void setUser(boolean user) {
-        this.user = user;
-    }
-
-    @Override
-    public String toString() {
-        return "UserDTO{" +
-                "email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", admin=" + admin +
-                ", user=" + user +
-                '}';
+        return "/user-photos/" + id + "/" + avatar;
     }
 }

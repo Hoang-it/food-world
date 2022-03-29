@@ -15,8 +15,11 @@ public class DefaultData implements CommandLineRunner {
 
     @Override
     public void run(String...args) throws Exception {
+        Role admin = roleRepo.findByName(Roles.ADMIN.name());
+        Role user = roleRepo.findByName(Roles.USER.name());
 
-        roleRepo.save(new Role(Roles.ADMIN.name()));
-        roleRepo.save(new Role(Roles.USER.name()));
+        if (admin == null) roleRepo.save(new Role(Roles.ADMIN.name()));
+        if (user == null) roleRepo.save(new Role(Roles.USER.name()));
+
     }
 }

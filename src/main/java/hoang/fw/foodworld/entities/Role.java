@@ -1,7 +1,14 @@
 package hoang.fw.foodworld.entities;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "roles")
 public class Role {
@@ -13,26 +20,8 @@ public class Role {
     @Column(unique = true, nullable = false)
     private String name;
 
-    public Integer getId() {
-        return id;
-    }
-    public Role(){
-
-    }
     public Role(String name) {
         this.name = name;
     }
-// remaining getters and setters
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }
