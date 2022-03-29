@@ -108,4 +108,13 @@ public class AppController {
         return new RedirectView("/user?userId=" + savedUser.getId(), true);
     }
 
+    @GetMapping("/home")
+    public String homePage(Model model) {
+        return "home";
+    }
+
+    @GetMapping("/food")
+    public String foodPage(Model model) {
+        return "food_card";
+    }
 }

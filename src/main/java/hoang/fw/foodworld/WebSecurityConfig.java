@@ -69,7 +69,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/webjars/**",
                 "/css/**",
                 "/fonts/**",
-                "/images/**"
+                "/images/**",
+                "/js/**",
         };
         web.ignoring().antMatchers(resource_dirs);
     }
@@ -77,7 +78,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         String[] allowAll = new String[]{
-                "/", "/register", "/process_register", "/oauth2/authorization/**", "/user", "/user/upload_avatar", "/user-photos/*/**"
+                "/", "/register", "/process_register", "/oauth2/authorization/**", "/user", "/user/upload_avatar", "/user-photos/*/**",
+                "/home", "/food"
         };
         String[] onlyAdmin = new String[]{
                 "/users"
